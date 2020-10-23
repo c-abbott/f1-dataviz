@@ -1,0 +1,79 @@
+---
+title: "Statisitcal Programming - 2020 - Project 1"
+output: rmarkdown::html_document
+author: Add your name here
+---
+
+Due on Monday, November 2nd by 5:00 pm (17:00), UK local time.
+
+Before you start be sure to read through *all* of the rules and instructions in the `README.md`.
+
+<br/>
+
+### Data
+
+```{r}
+library(tidyverse)
+f1 = readRDS(file="data/f1.rds")
+```
+
+
+<br/>
+
+### Task 1 - Tidy the data
+
+#### Write up
+
+<!-- Include write up here -->
+
+#### Code
+
+```{r task1}
+
+```
+
+<br/>
+
+
+### Task 2 - Drivers' Championship
+
+#### Write up
+
+<!-- Include write up here -->
+
+#### Code
+
+```{r task2}
+
+```
+
+<br/>
+
+### Task 3 - Cumulative Constructors
+
+#### Write up
+
+<!-- Include write up here -->
+
+#### Code
+
+```{r task3}
+
+```
+
+<br/>
+
+### Task 4 - Visualization
+
+#### Write up
+
+<!-- Include write up here -->
+
+#### Code
+
+```{r task4}
+
+```
+
+<br/>
+
