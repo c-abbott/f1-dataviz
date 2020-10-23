@@ -1,3 +1,6 @@
+[![Check Allowed Files](https://github.com/statprog-s1-2020/proj1_c-abbott/workflows/Check%20Allowed%20Files/badge.svg)](https://github.com/statprog-s1-2020/proj1_c-abbott/actions?query=workflow:%22Check%20Allowed%20Files%22) [![Check RMarkdown Renders](https://github.com/statprog-s1-2020/proj1_c-abbott/workflows/Check%20RMarkdown%20Renders/badge.svg)](https://github.com/statprog-s1-2020/proj1_c-abbott/actions?query=workflow:%22Check%20RMarkdown%20Renders%22) [![Check Rmd Structure](https://github.com/statprog-s1-2020/proj1_c-abbott/workflows/Check%20Rmd%20Structure/badge.svg)](https://github.com/statprog-s1-2020/proj1_c-abbott/actions?query=workflow:%22Check%20Rmd%20Structure%22)
+
+
 Statisitcal Programming - 2020 - Project 1
 -----------
 
