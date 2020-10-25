@@ -29,7 +29,39 @@ f1 = readRDS(file="data/f1.rds")
 #### Code
 
 ```{r task1}
-
+f1_tbl = tibble(f1_data = f1) %>%
+  unnest_wider(f1_data) %>%
+  hoist(
+    MRData,
+    races = c('RaceTable', 'Races')
+  ) %>% select(races) %>%
+  unnest_longer(races) %>%
+  hoist(
+    races,
+    race_name = c('raceName'),
+    round = c('round'),
+    date = (c('date')),
+    results = c('Results')
+  ) %>% select(-races) %>%
+  unnest_longer(results) %>%
+  hoist(
+    results,
+    first_name = c('Driver', 'givenName'),
+    last_name = c('Driver', 'familyName'),
+    constructor = c('Constructor', 'constructorId'),
+    position = c('positionText'),
+    points = c('points')
+    ) %>%
+  mutate(
+    round = as.integer(round),
+    date = as.Date(date),
+    driver = paste(first_name, last_name),
+    position = as.integer(position),
+    points = as.integer(points),
+    warning = FALSE
+  ) %>% 
+  select(race_name, round, date, driver, constructor, position, points)
+f1_tbl
 ```
 
 <br/>
