@@ -114,13 +114,41 @@ knitr::kable(rankings_tbl)
 
 #### Write up
 
-<!-- Include write up here -->
+We, as usual, begin by selecting only the relevant information. The data is structured
+such that we have twice as many rows as required due to each constructor/team
+having two representatives. We use this to our advantage and compute the sum of
+points grouped by `race_name` and `constructor`. This produces duplicate entries in
+our dataset which are easily removed using the `distinct()` function yielding
+the points scored by each constructor at each race. Naturally, we can now apply
+the `cumsum()` function column wise, pivot wider and sort by descending points 
+to generate the required table. Again, renaming the columns was performed to 
+improve the readability of the table and match the convention used in Task 2.
 
 #### Code
 
 ```{r task3}
+# Defining new column names for easy reading
+team_colnames = c('Constructor', 'AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 
+                         'CAN', 'FRA',  'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 
+                         'SIN', 'RUS', 'JPN', 'MEX', 'USA', 'BRA', 'ABU')
 
+team_tbl = f1_tbl %>%
+  select(race_name, constructor, points) %>%
+  # Getting points scored by each constructor at each race
+  group_by(constructor, race_name) %>%
+  mutate(points = sum(points)) %>%
+  distinct()  %>%
+  # Performing cumulative sum of points over the season
+  group_by(constructor) %>%
+  mutate(points = cumsum(points)) %>%
+  pivot_wider(names_from = race_name, values_from = points) %>%
+  # Abu Dhabi = final race hence apply sorting here
+  arrange(desc(`Abu Dhabi Grand Prix`))
+colnames(team_tbl) = team_colnames
+
+knitr::kable(team_tbl)
 ```
+
 
 <br/>
 
