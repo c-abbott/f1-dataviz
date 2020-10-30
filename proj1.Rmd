@@ -24,12 +24,12 @@ f1 = readRDS(file="data/f1.rds")
 
 #### Write up
 
-In this task we mainly utilize the hoist() function to extract the relevant information
-from the dataset before finishing with the mutate() function to convert the data
-into the appropriate type. Note that the postions “R” (retired), “D” (disqualified), 
-“E” (excluded),  “W” (withdrawn), “F” (failed to qualify) and “N” (not classified)  
-provided in the original data have all been coerced into NA values since all of 
-these positions correspond to a driver failing to complete a race.
+In this task we mainly utilize the `hoist()` function to extract the relevant information
+from the dataset before finishing with the `mutate()` function to convert the data
+into the appropriate types. Note that the positions “R” (retired), “D” (disqualified), 
+“E” (excluded),  “W” (withdrawn), “F” (failed to qualify) and “N” (not classified) 
+provided in the original data have all been intentionally coerced into `NA` values
+since all of these positions correspond to a driver failing to complete a race.
 
 #### Code
 
@@ -63,12 +63,13 @@ f1_tbl = tibble(f1_data = f1) %>%
     round = as.integer(round),
     date = as.Date(date),
     driver = paste(first_name, last_name),
-    # Suppressing warning since this produces desired behaviour
+    # Suppressing warning NA coercion is desired
     position = suppressWarnings(as.integer(position)),
     points = as.integer(points)
   ) %>% 
   select(race_name, round, date, driver, constructor, position, points)
-f1_tbl
+
+print(head(f1_tbl, n = 10L))
 ```
 
 <br/>
@@ -78,12 +79,33 @@ f1_tbl
 
 #### Write up
 
-<!-- Include write up here -->
+We begin our table creation by first selecting only the relevant columns. We then
+proceed to calculate the F1 rankings for the 2019 season before pivoting wider
+to make each row represent the positions of a single driver across the season.
+Our table columns were renamed, as well as the points tally relocated to the end
+of the table, in order improve the overall readability of the presentation.
 
 #### Code
 
 ```{r task2}
+# Defining new column names for easy reading
+new_colnames = c('Driver', 'AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 
+             'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 'SIN', 'RUS', 'JPN', 'MEX',
+             'USA', 'BRA', 'ABU', 'Points')
 
+rankings_tbl = f1_tbl %>% 
+  select(race_name, driver, position, points) %>%
+  # Getting ranking for 2019 season for each driver
+  group_by(driver) %>%
+  mutate(points = sum(points)) %>%
+  # 1 row = 1 driver
+  pivot_wider(names_from = race_name, values_from = position) %>%
+  arrange(desc(points)) %>%
+  # Making points the last column
+  relocate(points, .after = last_col())
+  colnames(rankings_tbl) = new_colnames
+
+rankings_tbl %>% print(n = Inf, width = Inf)  
 ```
 
 <br/>
