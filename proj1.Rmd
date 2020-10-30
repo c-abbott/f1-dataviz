@@ -24,12 +24,18 @@ f1 = readRDS(file="data/f1.rds")
 
 #### Write up
 
-<!-- Include write up here -->
+In this task we mainly utilize the hoist() function to extract the relevant information
+from the dataset before finishing with the mutate() function to convert the data
+into the appropriate type. Note that the postions “R” (retired), “D” (disqualified), 
+“E” (excluded),  “W” (withdrawn), “F” (failed to qualify) and “N” (not classified)  
+provided in the original data have all been coerced into NA values since all of 
+these positions correspond to a driver failing to complete a race.
 
 #### Code
 
 ```{r task1}
 f1_tbl = tibble(f1_data = f1) %>%
+  # ------------------ Pulling out relevant information ------------------ #
   unnest_wider(f1_data) %>%
   hoist(
     MRData,
@@ -48,17 +54,18 @@ f1_tbl = tibble(f1_data = f1) %>%
     results,
     first_name = c('Driver', 'givenName'),
     last_name = c('Driver', 'familyName'),
-    constructor = c('Constructor', 'constructorId'),
+    constructor = c('Constructor', 'name'),
     position = c('positionText'),
     points = c('points')
     ) %>%
+  # --------------- Mutating data to be of appropriate type -------------- #
   mutate(
     round = as.integer(round),
     date = as.Date(date),
     driver = paste(first_name, last_name),
-    position = as.integer(position),
-    points = as.integer(points),
-    warning = FALSE
+    # Suppressing warning since this produces desired behaviour
+    position = suppressWarnings(as.integer(position)),
+    points = as.integer(points)
   ) %>% 
   select(race_name, round, date, driver, constructor, position, points)
 f1_tbl
