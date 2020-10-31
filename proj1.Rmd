@@ -180,7 +180,9 @@ A final design decision that was taken was for both figures to share the same
 x-axis. This was done to enable the reader to simultaneously observe the how the
 standings for both championships updated by each grand prix.
 
-```{r, task4, fig.height = 10, fig.width = 10}
+#### Code
+
+```{r, nametask4, fig.height = 10, fig.width = 10}
 # Used to define factor and place races in chronological order
 race_levels = c("Australian Grand Prix", "Bahrain Grand Prix", "Chinese Grand Prix",
                 "Azerbaijan Grand Prix", "Spanish Grand Prix", "Monaco Grand Prix",
