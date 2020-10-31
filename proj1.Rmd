@@ -15,9 +15,7 @@ Before you start be sure to read through *all* of the rules and instructions in 
 ```{r}
 library(tidyverse)
 library(ggrepel)
-library(showtext)
 library(patchwork)
-font_add_google(name = "Kanit", family = "kanit")
 f1 = readRDS(file="data/f1.rds")
 ```
 
@@ -160,9 +158,27 @@ knitr::kable(team_tbl)
 
 #### Write up
 
-<!-- Include write up here -->
+For Task 4 I chose to tell the story of the 2019 F1 season through visualizing
+the Driver's and Constructor's Championship standings as the season progressed.
+The data clearly shows a vary stable and dominant season with Mercedes, Ferrari 
+and Red Bull occupying the 1st, 2nd and 3rd places respectively for the entirety
+of the 2019 season. A similar but slightly more competitive story is told in 
+the Driver's championship with Hamilton and Bottas fighting for 1st up until
+around the Hungarian Grand Prix (race 12), before Hamilton begins pulling away to win the 
+championship. 
 
-#### Code
+Due to the large gap in terms of points between the top performers
+and the rest of the pack, I hence decided to only highlight the top 5 drivers and 
+top 3 constructors using each constructor's respective hexadecimal colours. I chose
+this common colour scheme to permeate through both figures as I believe it
+further illustrates the dominance Mercedes had over the 2019 season and allows the
+reader to clearly see how the Constructor's Championship figure was derived 
+from the Driver's Championship figure. However, the common colour scheme meant I had
+to annotate the top 5 drivers in order to distinguish two drivers from the 
+same team which I think looks slightly cramped but worth the cost.
+A final design decision that was taken was for both figures to share the same
+x-axis. This was done to enable the reader to simultaneously observe the how the
+standings for both championships updated by each grand prix.
 
 ```{r, task4, fig.height = 10, fig.width = 10}
 # Used to define factor and place races in chronological order
@@ -228,21 +244,20 @@ driver_plot = ggplot(driver_tbl, aes(x = race_name, y = points)) +
   # Aesthetic formatting
   theme_minimal() +
   theme(
-    text = element_text(family = "kanit", size = 16),
+    text = element_text(size = 16),
     legend.position = "none", 
     axis.title.x = element_blank(),
     axis.ticks.x = element_blank(),
     axis.text.x = element_blank(),
     panel.grid.minor = element_blank()) +
+  # Using ticks defined in Task 2 & 3
   scale_x_discrete(labels = team_colnames[-1]) + 
   scale_color_manual(values = driver_colours) + 
   labs(
     title = "F1 Driver's Championship Standings by Grand Prix",
     x = "Grand Prix",
-    y = "Points",
-    family = "kanit"
+    y = "Points"
   ) 
-
 
 # Manipulating constructor data to be suitable for ggplot
 constructor_tbl = f1_tbl %>%
@@ -282,19 +297,20 @@ team_plot = ggplot(constructor_tbl, aes(x = race_name, y = points)) +
   # Aesthetic formatting
   theme_minimal() +
   theme(
-    text = element_text(family = "kanit", size = 16),
+    text = element_text(size = 16),
     legend.position = "bottom",
     panel.grid.minor = element_blank()) +
+  # Using ticks defined in Task 2 & 3
   scale_x_discrete(labels = team_colnames[-1]) +
   scale_color_manual(values = constructor_colours) +
   labs(
     title = "F1 Constructor's Championship Standings by Grand Prix",
     x = "Grand Prix",
     y = "Points",
-    family = "kanit",
     color = "Constructor"
   )
 
+# Displaying figure
 fig = driver_plot / team_plot
 fig
 ```
