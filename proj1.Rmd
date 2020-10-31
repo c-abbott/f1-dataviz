@@ -82,14 +82,14 @@ print(head(f1_tbl, n = 10L))
 We begin our table creation by first selecting only the relevant columns. We then
 proceed to calculate the F1 rankings for the 2019 season before pivoting wider
 to make each row represent the positions of a single driver across the season.
-Our table columns were renamed, as well as the points tally relocated to the end
-of the table, in order improve the overall readability of the presentation.
+Our table columns were renamed as well as the points tally relocated to the end
+of the table in order improve the overall readability of the presentation.
 
 #### Code
 
 ```{r task2}
 # Defining new column names for easy reading
-new_colnames = c('Driver', 'AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 
+rankings_colnames = c('Driver', 'AUS', 'BHR', 'CHN', 'AZE', 'ESP', 'MON', 'CAN', 'FRA', 
              'AUT', 'GBR', 'GER', 'HUN', 'BEL', 'ITA', 'SIN', 'RUS', 'JPN', 'MEX',
              'USA', 'BRA', 'ABU', 'Points')
 
@@ -103,7 +103,7 @@ rankings_tbl = f1_tbl %>%
   arrange(desc(points)) %>%
   # Making points the last column
   relocate(points, .after = last_col())
-  colnames(rankings_tbl) = new_colnames
+  colnames(rankings_tbl) = rankings_colnames
 
 knitr::kable(rankings_tbl)
 ```
@@ -161,6 +161,41 @@ knitr::kable(team_tbl)
 #### Code
 
 ```{r task4}
+race_levels = c("Australian Grand Prix", "Bahrain Grand Prix", "Chinese Grand Prix",
+                "Azerbaijan Grand Prix", "Spanish Grand Prix", "Monaco Grand Prix",
+                "Canadian Grand Prix", "French Grand Prix", "Austrian Grand Prix",
+                "British Grand Prix", "German Grand Prix", "Hungarian Grand Prix",
+                "Belgian Grand Prix", "Italian Grand Prix", "Singapore Grand Prix",
+                "Russian Grand Prix", "Japanese Grand Prix", "Mexican Grand Prix",
+                "United States Grand Prix", "Brazilian Grand Prix", "Abu Dhabi Grand Prix")
+
+# Creating analagous tibble to task 3 for the drivers
+driver_tbl = f1_tbl %>%
+  select(race_name, driver, points) %>%
+  # Getting points scored by each driver at each race
+  group_by(driver, race_name) %>%
+  mutate(points = sum(points)) %>%
+  # Performing cumulative sum of points over the season
+  group_by(driver) %>%
+  mutate(points = cumsum(points)) %>%
+  mutate(race_name = factor(race_name, levels = race_levels))
+driver_tbl
+
+#factor(rankings_colnames[c(-1, -length(rankings_colnames))], rankings_colnames[c(-1, -length(rankings_colnames))])
+
+#%>%
+#  pivot_wider(names_from = race_name, values_from = points) %>%
+#  # Abu Dhabi = final race hence apply sorting here
+#  arrange(desc(`Abu Dhabi Grand Prix`))
+#colnames(driver_tbl) = rankings_colnames[-length(rankings_colnames)]
+
+ggplot(data=driver_tbl, aes(x=race_name, y=points, group=driver)) +
+  geom_line() + 
+  geom_point() + 
+  scale_x_discrete(
+    name = "Race",
+    labels = team_colnames[-1]
+    )
 
 ```
 
