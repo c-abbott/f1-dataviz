@@ -182,7 +182,7 @@ standings for both championships updated by each grand prix.
 
 #### Code
 
-```{r, nametask4, fig.height = 10, fig.width = 10}
+```{r, task4, fig.height = 10, fig.width = 10}
 # Used to define factor and place races in chronological order
 race_levels = c("Australian Grand Prix", "Bahrain Grand Prix", "Chinese Grand Prix",
                 "Azerbaijan Grand Prix", "Spanish Grand Prix", "Monaco Grand Prix",
