@@ -256,7 +256,7 @@ driver_plot = ggplot(driver_tbl, aes(x = race_name, y = points)) +
   scale_x_discrete(labels = team_colnames[-1]) + 
   scale_color_manual(values = driver_colours) + 
   labs(
-    title = "F1 Driver's Championship Standings by Grand Prix",
+    title = "2019 F1 Driver's Championship Standings by Grand Prix",
     x = "Grand Prix",
     y = "Points"
   ) 
@@ -306,7 +306,7 @@ team_plot = ggplot(constructor_tbl, aes(x = race_name, y = points)) +
   scale_x_discrete(labels = team_colnames[-1]) +
   scale_color_manual(values = constructor_colours) +
   labs(
-    title = "F1 Constructor's Championship Standings by Grand Prix",
+    title = "2019 F1 Constructor's Championship Standings by Grand Prix",
     x = "Grand Prix",
     y = "Points",
     color = "Constructor"
