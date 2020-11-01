@@ -16,6 +16,7 @@ Before you start be sure to read through *all* of the rules and instructions in 
 library(tidyverse)
 library(ggrepel)
 library(patchwork)
+library(ggthemes)
 f1 = readRDS(file="data/f1.rds")
 ```
 
@@ -183,6 +184,7 @@ standings for both championships updated by each grand prix.
 #### Code
 
 ```{r, task4, fig.height = 10, fig.width = 10}
+
 # Used to define factor and place races in chronological order
 race_levels = c("Australian Grand Prix", "Bahrain Grand Prix", "Chinese Grand Prix",
                 "Azerbaijan Grand Prix", "Spanish Grand Prix", "Monaco Grand Prix",
@@ -200,6 +202,11 @@ driver_colours = c("Lewis Hamilton" = "#00D2BE", "Valtteri Bottas" = "#00D2BE",
 # Hexadecimal colours of constructors
 constructor_colours = c("Mercedes" = "#00D2BE", "Ferrari" = "#DC0000",
                         "Red Bull" = "#0600EF")
+
+
+#####################################################################
+# ----------------- Graph 1: Driver's Championship ---------------- #
+#####################################################################
 
 # Manipulating driver data to be suitable for ggplot
 driver_tbl = f1_tbl %>%
@@ -244,7 +251,7 @@ driver_plot = ggplot(driver_tbl, aes(x = race_name, y = points)) +
     data = driver_tbl_filtered
   ) + 
   # Aesthetic formatting
-  theme_minimal() +
+  ggthemes::theme_fivethirtyeight() +
   theme(
     text = element_text(size = 16),
     legend.position = "none", 
@@ -257,9 +264,14 @@ driver_plot = ggplot(driver_tbl, aes(x = race_name, y = points)) +
   scale_color_manual(values = driver_colours) + 
   labs(
     title = "2019 F1 Driver's Championship Standings by Grand Prix",
+    subtitle = "Hamilton and Bottas battle it out for the Championship",
     x = "Grand Prix",
     y = "Points"
   ) 
+
+#####################################################################
+# -------------- Graph 2: Constructor's Championship -------------- #
+#####################################################################
 
 # Manipulating constructor data to be suitable for ggplot
 constructor_tbl = f1_tbl %>%
@@ -297,9 +309,9 @@ team_plot = ggplot(constructor_tbl, aes(x = race_name, y = points)) +
     data = constructor_tbl_filtered
   ) +
   # Aesthetic formatting
-  theme_minimal() +
+  ggthemes::theme_fivethirtyeight() +
   theme(
-    text = element_text(size = 16),
+    text = element_text(size = 15),
     legend.position = "bottom",
     panel.grid.minor = element_blank()) +
   # Using ticks defined in Task 2 & 3
@@ -307,6 +319,7 @@ team_plot = ggplot(constructor_tbl, aes(x = race_name, y = points)) +
   scale_color_manual(values = constructor_colours) +
   labs(
     title = "2019 F1 Constructor's Championship Standings by Grand Prix",
+    subtitle = "Mercedes dominate the 2019 F1 season",
     x = "Grand Prix",
     y = "Points",
     color = "Constructor"
