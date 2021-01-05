@@ -1,23 +1,19 @@
 ---
 title: "Statisitcal Programming - 2020 - Project 1"
-output: rmarkdown::html_document
-author: Add your name here
+author: "Callum Abbott"
+output:
+  html_document:
+    df_print: paged
 ---
-
-Due on Monday, November 2nd by 5:00 pm (17:00), UK local time.
-
-Before you start be sure to read through *all* of the rules and instructions in the `README.md`.
-
-<br/>
 
 ### Data
 
-```{r}
+```{r warning=FALSE}
 library(tidyverse)
 library(ggrepel)
 library(patchwork)
 library(ggthemes)
-f1 = readRDS(file="data/f1.rds")
+f1 = readRDS("data/f1.rds")
 ```
 
 
@@ -197,7 +193,7 @@ race_levels = c("Australian Grand Prix", "Bahrain Grand Prix", "Chinese Grand Pr
 # Hexadecimal colours of constructor each driver belongs to
 driver_colours = c("Lewis Hamilton" = "#00D2BE", "Valtteri Bottas" = "#00D2BE",
                    "Max Verstappen" = "#0600EF", "Sebastian Vettel" = "#DC0000",
-                   "Charles Leclerc" = "#0600EF")
+                   "Charles Leclerc" = "#DC0000")
 
 # Hexadecimal colours of constructors
 constructor_colours = c("Mercedes" = "#00D2BE", "Ferrari" = "#DC0000",
@@ -263,7 +259,7 @@ driver_plot = ggplot(driver_tbl, aes(x = race_name, y = points)) +
   scale_x_discrete(labels = team_colnames[-1]) + 
   scale_color_manual(values = driver_colours) + 
   labs(
-    title = "2019 F1 Driver's Championship Standings by Grand Prix",
+    title = "2019 F1 Driver's Championship by Grand Prix",
     subtitle = "Hamilton and Bottas battle it out for the Championship",
     x = "Grand Prix",
     y = "Points"
@@ -318,7 +314,7 @@ team_plot = ggplot(constructor_tbl, aes(x = race_name, y = points)) +
   scale_x_discrete(labels = team_colnames[-1]) +
   scale_color_manual(values = constructor_colours) +
   labs(
-    title = "2019 F1 Constructor's Championship Standings by Grand Prix",
+    title = "2019 F1 Constructor's Championship by Grand Prix",
     subtitle = "Mercedes dominate the 2019 F1 season",
     x = "Grand Prix",
     y = "Points",
